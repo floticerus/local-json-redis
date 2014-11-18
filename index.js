@@ -18,6 +18,9 @@
 					// attempt to use default client if one is not passed through options
 					options.client = options.client || redis.createClient()
 
+					// hash name to use in redis
+					options.hash = options.hash || 'local-json-data'
+
 					// default ttl is 1 day
 					options.ttl = typeof options.ttl !== 'undefined' ? parseInt( options.ttl ) : 86400
 
@@ -25,7 +28,7 @@
 					{
 						if ( !options.client )
 						{
-							return// done()
+							return
 						}
 
 						// prune data on start. this is probably not desired,
@@ -33,9 +36,9 @@
 						//
 						// but we need to do something because the file watcher
 						// cannot detect changes to files while node isn't running
-						options.client.del( 'local-json-data', function ( err )
+						options.client.del( options.hash, function ( err )
 							{
-								//done( err )
+								
 							}
 						)
 					}
@@ -47,14 +50,12 @@
 							return done()
 						}
 
-						options.client.hget( 'local-json-data', filePath, function ( err, dataReply )
+						options.client.hget( options.hash, filePath, function ( err, dataReply )
 							{
 								if ( err || !dataReply )
 								{
 									return done( err )
 								}
-
-								console.log( 'got', filePath, 'from redis' )
 
 								// use LocalJson.TryParse to prevent crashing the server
 								done( err, LocalJson.TryParse( JSON.parse, dataReply ) )
@@ -70,10 +71,8 @@
 						}
 
 						// use JSON.stringify to convert object to string for redis
-						options.client.hset( 'local-json-data', filePath, JSON.stringify( data ), function ( err )
+						options.client.hset( options.hash, filePath, JSON.stringify( data ), function ( err )
 							{
-								console.log( 'saved', filePath, 'to redis' )
-
 								done( err )
 							}
 						)
@@ -86,7 +85,11 @@
 							return done()
 						}
 
-						done()
+						options.client.hdel( options.hash, filePath, function ( err )
+							{
+								done( err )
+							}
+						)
 					}
 
 					return storageMethod
