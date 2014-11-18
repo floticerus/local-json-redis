@@ -1,0 +1,28 @@
+{
+  "name": "local-json-redis",
+  "version": "0.0.1",
+  "description": "redis storage method for node.js module local-json.",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kvonflotow/local-json-redis.git"
+  },
+  "keywords": [
+    "json",
+    "reader",
+    "local",
+    "async",
+    "dynamic",
+    "redis"
+  ],
+  "dependencies": {
+    "redis": "~0.12.1",
+    "local-json": "~0.0.9"
+  },
+  "author": "kevin von flotow",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kvonflotow/local-json-redis/issues"
+  },
+  "homepage": "https://github.com/kvonflotow/local-json-redis"
+}
