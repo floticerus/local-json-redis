@@ -21,8 +21,8 @@
                     // hash name to use in redis
                     options.hash = options.hash || 'local-json-data'
 
-                    // default ttl is 1 day
-                    options.ttl = typeof options.ttl !== 'undefined' ? parseInt( options.ttl ) : 86400
+                    // not implemented (yet?)
+                    //options.ttl = typeof options.ttl !== 'undefined' ? parseInt( options.ttl ) : 86400
 
                     storageMethod.init = function ()
                     {
